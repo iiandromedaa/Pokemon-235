@@ -47,6 +47,13 @@ public class Pokemon {
     }
 
     /**
+     * removes nickname
+     */
+    void removeNick() {
+        nickname = null;
+    }
+
+    /**
      * @return pokemon's level
      */
     int getLevel() {

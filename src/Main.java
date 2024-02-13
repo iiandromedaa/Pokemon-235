@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -17,12 +16,14 @@ public class Main {
                     System.out.println("i do not feel like validating input here, enter things properly or youll crash the program");
                     String species, nickname, type;
                     int level;
+
                     System.out.println("simple or advanced pokemon creation\n(simple starts at level 1 with no nickname)\n(s/a)");
                     String mode = scanscan.next();
                     System.out.println("what species of pokemon do you want");
                     species = scanscan.next();
                     System.out.println("enter the pokemon's type");
                     type = scanscan.next();
+
                     if (mode.equalsIgnoreCase("s")){
                         list.add(new Pokemon(species, type));
                         break;
@@ -40,12 +41,25 @@ public class Main {
                     break;
                 case 2:
                     //view specific pkmn
+                    printOne(list.get(CLUtility.switchValidator("enter an index to view", list.size(), scanscan)));
                     break;
                 case 3:
                     //edit pkmn
                     Pokemon editing = list.get(CLUtility.switchValidator("enter an index to edit", list.size(), scanscan));
-                    switch (CLUtility.switchValidator("0)edit nickname\n1)edit species", 3, scanscan)) {
-
+                    switch (CLUtility.switchValidator("0) edit nickname\n1) level up", 1, scanscan)) {
+                        case 0:
+                            System.out.println("enter a new nickname (leave blank to remove nickname)");
+                            if (scanscan.next().equals(""))
+                                editing.removeNick();
+                            else
+                                editing.changeNick(scanscan.next());
+                            if (editing.getNick() == null)
+                                System.out.println("nickname removed");
+                            else
+                                System.out.println("new nickname is " + editing.getNick());
+                        case 1:
+                            editing.levelUp();
+                            System.out.println("pokemon's level is now " + editing.getLevel());
                     }
                     break;
                 case 4:
@@ -61,12 +75,23 @@ public class Main {
      */
     static void printList() {
         for (Pokemon pk : list) {
-            System.out.print("species: " + pk.getSpecies());
-            if (!pk.getNick().equals(null)) {
-                System.out.print(" nickname: " + pk.getNick());
-            }
-            System.out.println(" type: " + pk.getType() + " level: " + pk.getLevel());
+            if (!(pk.getNick() == null))
+                System.out.print("name: " + pk.getNick());
+            else
+                System.out.println("name: " + pk.getSpecies());
+            System.out.println(" species: " + pk.getSpecies() + " type: " + pk.getType() + " level: " + pk.getLevel());
         }
+    }
+
+    /**
+     * @param pk pokemon to have it's fields printed
+     */
+    static void printOne(Pokemon pk) {
+        if (!(pk.getNick() == null))
+                System.out.print("name: " + pk.getNick());
+            else
+                System.out.println("name: " + pk.getSpecies());
+        System.out.println(" species: " + pk.getSpecies() + " type: " + pk.getType() + " level: " + pk.getLevel());
     }
 
 }
